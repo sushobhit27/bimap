@@ -1,11 +1,11 @@
 import pytest
 
-from ..bimap import bimap, multi_bimap
+from ..bimap import Bimap, MultiBimap
 
 
 @pytest.fixture
 def bm():
-    bm = bimap()
+    bm = Bimap()
     bm.left[1] = 'a'
     bm.left[2] = 'b'
     bm.left[3] = 'c'

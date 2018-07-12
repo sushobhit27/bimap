@@ -12,7 +12,7 @@ VIEW_MAPPING = {
 }
 
 
-class BiMapValue(object):
+class _BiMapValue(object):
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -36,7 +36,7 @@ class View(object):
         return self.bm.values(self.view_type)
 
 
-class bimap(object):
+class Bimap(object):
     def __init__(self):
         self.multi_index = MultiIndexContainer(HashedUnique(ViewEnum.LEFT_VIEW),
                                                HashedUnique(ViewEnum.RIGHT_VIEW))
@@ -54,9 +54,9 @@ class bimap(object):
 
     def insert(self, key, value, view_type):
         if view_type == ViewEnum.LEFT_VIEW:
-            self.multi_index.replace(ViewEnum.LEFT_VIEW, key, BiMapValue(key, value)) if self.multi_index.get(ViewEnum.LEFT_VIEW, key) else self.multi_index.insert(BiMapValue(key, value))
+            self.multi_index.replace(ViewEnum.LEFT_VIEW, key, _BiMapValue(key, value)) if self.multi_index.get(ViewEnum.LEFT_VIEW, key) else self.multi_index.insert(_BiMapValue(key, value))
         else:
-            self.multi_index.replace(ViewEnum.RIGHT_VIEW, key, BiMapValue(value, key)) if self.multi_index.get(ViewEnum.RIGHT_VIEW, key) else self.multi_index.insert(BiMapValue(value, key))
+            self.multi_index.replace(ViewEnum.RIGHT_VIEW, key, _BiMapValue(value, key)) if self.multi_index.get(ViewEnum.RIGHT_VIEW, key) else self.multi_index.insert(_BiMapValue(value, key))
 
     def get(self, item, view_type):
         if view_type == ViewEnum.LEFT_VIEW:
@@ -77,7 +77,7 @@ class bimap(object):
                 yield index[0]
 
  
-class multi_bimap(object):
+class MultiBimap(object):
     def __init__(self):
         self.multi_index = MultiIndexContainer(HashedNonUnique(ViewEnum.LEFT_VIEW),
                                                HashedNonUnique(ViewEnum.RIGHT_VIEW))
@@ -95,9 +95,9 @@ class multi_bimap(object):
 
     def insert(self, key, value, view_type):
         if view_type == ViewEnum.LEFT_VIEW:
-            self.multi_index.insert(BiMapValue(key, value))
+            self.multi_index.insert(_BiMapValue(key, value))
         else:
-            self.multi_index.insert(BiMapValue(value, key))
+            self.multi_index.insert(_BiMapValue(value, key))
 
     def get(self, item, view_type):
         return [getattr(mi_ctr, VIEW_MAPPING[view_type]) for mi_ctr in self.multi_index.get(view_type, item)]
