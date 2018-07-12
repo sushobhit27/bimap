@@ -43,11 +43,14 @@ class bimap(object):
 
     def insert(self, key, value, view_type):
         if view_type == 'left':
-            self.multi_index.modify('right', value, BiMapValue(key, value)) if self.multi_index.get('left', key) else self.multi_index.insert(BiMapValue(key, value))
-#            self.multi_index.insert(BiMapValue(key, value), overwrite=True)
+            self.multi_index.replace('left', key, BiMapValue(key, value)) if self.multi_index.get('left', key) else self.multi_index.insert(BiMapValue(key, value))
+            #self.multi_index.modify('left', key, BiMapValue(key, value)) if self.multi_index.get('left', key) else self.multi_index.insert(BiMapValue(key, value))
+            #self.multi_index.insert(BiMapValue(key, value), overwrite=True) if self.multi_index.get('left', key) else self.multi_index.insert(BiMapValue(key, value))
         else:
-            self.multi_index.modify('right', key, BiMapValue(value, key)) if self.multi_index.get('right', value) else self.multi_index.insert(BiMapValue(value, key))
-#            self.multi_index.insert(BiMapValue(value, key), overwrite=True)
+            self.multi_index.replace('right', key, BiMapValue(value, key)) if self.multi_index.get('right', key) else self.multi_index.insert(BiMapValue(value, key))
+            #self.multi_index.modify('right', key, BiMapValue(value, key)) if self.multi_index.get('right', key) else self.multi_index.insert(BiMapValue(value, key))
+            #self.multi_index.insert(BiMapValue(value, key), overwrite=True) if self.multi_index.get('right', key) else self.multi_index.insert(BiMapValue(value, key))
+            
 
     def get(self, item, view_type):
         if view_type == 'left':
@@ -109,37 +112,3 @@ class multi_bimap(object):
                 yield index[0]
 
        
-bm = bimap()
-bm.left[1] = 'a'
-bm.left[2] = 'b'
-bm.left[3] = 'c'
-print(bm.left[2])
-print(bm.right['c'])
-import pdb;pdb.set_trace()
-bm.left[2] = 'xyz'
-bm.right['d'] = 4
-print(bm.left[2])
-print(bm.left[4])
-print(list(bm.left.keys()))
-print(list(bm.right.keys()))
-print('**************')
-print(list(bm.left.values()))
-print(list(bm.right.values()))
-
-print('=================')
-bm = multi_bimap()
-bm.left[1] = 'a'
-bm.left[2] = 'b'
-bm.left[3] = 'c'
-print(bm.left[2])
-print(bm.right['c'])
-
-bm.left[2] = 'xyz'
-bm.right['d'] = 4
-print(bm.left[2])
-print(bm.left[4])
-print(list(bm.left.keys()))
-print(list(bm.right.keys()))
-print('**************')
-print(list(bm.left.values()))
-print(list(bm.right.values()))
