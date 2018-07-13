@@ -24,4 +24,7 @@ setup(
       'Topic :: Utilities',
       'Intended Audience :: Developers',
       ],
+  install_requires = [
+      'multiindex >= 0.2.0',
+      ]
 )
