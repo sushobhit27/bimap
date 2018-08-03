@@ -2,10 +2,10 @@
 Bimap
 ==========
 
-Bimap is a bidirectional map, a container similar to boost bimap.
+Bimap is a bidirectional dictionary, similar to boost bimap.
 
 ------------------------
-Example
+Usage
 ------------------------
 
 .. code-block:: python
